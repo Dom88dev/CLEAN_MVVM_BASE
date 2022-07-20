@@ -1,0 +1,51 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+apply from: rootProject.file("android.gradle")
+
+dependencies {
+    implementation project(":domain")
+
+    implementation(Kotlin.KOTLIN_STDLIB)
+    implementation(Kotlin.COROUTINES_CORE)
+    implementation(Kotlin.COROUTINES_ANDROID)
+
+    implementation(AndroidX.CORE_KTX)
+    implementation(AndroidX.APP_COMPAT)
+    implementation(AndroidX.ACTIVITY_KTX)
+    implementation(AndroidX.FRAGMENT_KTX)
+    implementation(AndroidX.CONSTRAINT_LAYOUT)
+    implementation(AndroidX.LIFECYCLE_VIEWMODEL_KTX)
+    implementation(AndroidX.LIFECYCLE_LIVEDATA_KTX)
+
+    implementation(Google.MATERIAL)
+    implementation(Google.HILT_ANDROID)
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    kapt          (Google.HILT_ANDROID_COMPILER)
+
+    implementation(Libraries.GLIDE)
+    kapt          (Libraries.GLIDE_COMPILER)
+}
+
+android {
+    buildFeatures {
+        viewBinding true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
