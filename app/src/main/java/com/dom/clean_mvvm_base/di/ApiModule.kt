@@ -1,7 +1,10 @@
-package com.dom.mvvm_base.di
+package com.dom.clean_mvvm_base.di
 
 import android.app.Application
 import com.dom.data.remote.OpenWeatherService
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParser
+import com.google.gson.JsonSyntaxException
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,6 +15,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -50,9 +54,27 @@ internal object ApiModule {
             readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
             retryOnConnectionFailure(true)
             addInterceptor(interceptor)
-            addInterceptor(HttpLoggingInterceptor().apply {
+            addInterceptor(HttpLoggingInterceptor {
+                if (!it.startsWith("{") && !it.startsWith("[")) {
+                    Timber.tag("OkHttp").d(it)
+                } else {
+                    try {
+                        Timber.tag("OkHttp").d(
+                            GsonBuilder().setPrettyPrinting().create().toJson(
+                                JsonParser().parse(it)))
+                    } catch (e: JsonSyntaxException) {
+                        Timber.tag("OkHttp").d(it)
+                    }
+                }
+            }.apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
+            /* 토큰 갱신 코드
+            authenticator(Authenticator { route, response ->
+                //todo token 갱신 로직 추가..
+                return@Authenticator response.request
+            })
+            */
         }.build()
     }
 

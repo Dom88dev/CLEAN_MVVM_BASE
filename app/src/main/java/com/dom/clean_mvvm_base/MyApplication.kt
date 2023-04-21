@@ -1,4 +1,4 @@
-package com.dom.mvvm_base
+package com.dom.clean_mvvm_base
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

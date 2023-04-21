@@ -1,4 +1,4 @@
-package com.dom.mvvm_base.di
+package com.dom.clean_mvvm_base.di
 
 import com.dom.data.source.LogDataSource
 import com.dom.data.source.LogLocalDataSource
