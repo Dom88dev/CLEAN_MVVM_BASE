@@ -8,4 +8,4 @@ data class WeatherInfo(
     val humid: Int,
     val state: String,
     val icon: String
-)
+): Data()

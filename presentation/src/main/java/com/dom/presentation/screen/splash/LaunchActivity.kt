@@ -12,17 +12,17 @@ import kotlinx.coroutines.Job
 
 @AndroidEntryPoint
 class LaunchActivity : BaseActivity<LaunchViewModel, ActivityLaunchBinding>() {
-    override val viewModel: LaunchViewModel by viewModels()
-    override val viewBinding: ActivityLaunchBinding by viewBinding(ActivityLaunchBinding::inflate)
+    override val vm: LaunchViewModel by viewModels()
+    override val vb: ActivityLaunchBinding by viewBinding(ActivityLaunchBinding::inflate)
 
     override fun initViews() {
-        with(viewBinding) {
+        with(vb) {
 
         }
     }
 
     override fun observeData(): Job = lifecycleScope.launchWhenStarted {
-        viewModel.isReadyMainScreen.collect {
+        vm.isReadyMainScreen.collect {
             if (it) {
                 startActivity(Intent(this@LaunchActivity, MainActivity::class.java))
                 finish()
