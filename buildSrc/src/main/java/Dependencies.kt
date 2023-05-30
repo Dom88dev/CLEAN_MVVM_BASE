@@ -13,6 +13,7 @@ object Versions {
     const val APP_COMPAT = "1.6.1"
     const val ACTIVITY_KTX = "1.7.0"
     const val FRAGMENT_KTX = "1.5.6"
+    const val NAVIGATION = "2.5.3"
     const val CONSTRAINT_LAYOUT = "2.1.4"
     const val LIFECYCLE_KTX = "2.6.1"
     const val ROOM = "2.5.0"
@@ -62,6 +63,9 @@ object Libraries {
         const val ACTIVITY_KTX            = "androidx.activity:activity-ktx:${Versions.ACTIVITY_KTX}"
         const val FRAGMENT_KTX            = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT_KTX}"
 
+        const val NAVIGATION_FRAGMENT     = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION}"
+        const val NAVIGATION_UI           = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION}"
+
         const val CONSTRAINT_LAYOUT       = "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
 
         const val LIFECYCLE_VIEWMODEL_KTX = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_KTX}"
@@ -77,6 +81,8 @@ object Libraries {
         const val CAMERA_X_CAM2           = "androidx.camera:camera-camera2:${Versions.CAMERA_X}"
         const val CAMERA_X_LIFECYCLE      = "androidx.camera:camera-lifecycle:${Versions.CAMERA_X}"
         const val CAMERA_X_VIEW           = "androidx.camera:camera-view:${Versions.CAMERA_X}"
+
+        val CameraGroup = listOf(CAMERA_X_CORE, CAMERA_X_CAM2, CAMERA_X_LIFECYCLE, CAMERA_X_VIEW)
     }
 
     object Firebase {
@@ -101,6 +107,8 @@ object Libraries {
         // 로그 라이브러리
         const val TIMBER                            = "com.jakewharton.timber:timber:${Versions.TIMBER}"
         const val LOTTIE                            = "com.airbnb.android:lottie:${Versions.LOTTIE}"
+
+        val RetroFitGroup = listOf(RETROFIT, RETROFIT_CONVERTER_GSON, OKHTTP, OKHTTP_LOGGING_INTERCEPTOR)
     }
 
     object UnitTest {
@@ -137,22 +145,23 @@ object Libraries {
      * app단에서 사용되는 라이브러리
      */
     object AppLibList {
-        val impl = listOf<String>(
+        val impl = arrayListOf<String>(
             Firebase.MESSAGING, Firebase.ANALYTICS, Firebase.CRASHLYTICS,
-            AndroidX.MULTIDEX, AndroidX.CAMERA_X_CORE, AndroidX.CAMERA_X_CAM2,
-            AndroidX.CAMERA_X_LIFECYCLE, AndroidX.CAMERA_X_VIEW
-        )
+            AndroidX.MULTIDEX
+        ).also {
+            it.addAll(AndroidX.CameraGroup)
+        }
     }
 
     /**
      * data단에서 사용되는 라이브러리
      */
     object DataLibList {
-        val impl = listOf<String>(
-            AndroidX.ROOM_RUNTIME, AndroidX.ROOM_KTX,
-            ThirdParty.RETROFIT, ThirdParty.RETROFIT_CONVERTER_GSON,
-            ThirdParty.OKHTTP, ThirdParty.OKHTTP_LOGGING_INTERCEPTOR
-        )
+        val impl = arrayListOf<String>(
+            AndroidX.ROOM_RUNTIME, AndroidX.ROOM_KTX
+        ).also {
+            it.addAll(ThirdParty.RetroFitGroup)
+        }
 
         val kapt = listOf<String>(
             AndroidX.ROOM_COMPILER
@@ -163,13 +172,13 @@ object Libraries {
      * presentation단에서 사용되는 라이브러리
      */
     object PresentationLibList {
-        val impl = listOf<String>(
+        val impl = arrayListOf<String>(
             AndroidX.ACTIVITY_KTX, AndroidX.FRAGMENT_KTX,
             AndroidX.CONSTRAINT_LAYOUT, AndroidX.LIFECYCLE_VIEWMODEL_KTX,
-            AndroidX.CAMERA_X_CORE, AndroidX.CAMERA_X_CAM2,
-            AndroidX.CAMERA_X_LIFECYCLE, AndroidX.CAMERA_X_VIEW,
             Firebase.MESSAGING, ThirdParty.GLIDE, ThirdParty.LOTTIE
-        )
+        ).also {
+            it.addAll(AndroidX.CameraGroup)
+        }
 
         val kapt = listOf<String>(
             ThirdParty.GLIDE_COMPILER

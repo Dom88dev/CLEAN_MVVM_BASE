@@ -1,5 +1,6 @@
 package com.dom.presentation.base.delegate
 
+import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -9,11 +10,11 @@ import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-inline fun <reified T: ViewBinding> Fragment.viewBiding(noinline viewBindingFactory: (View) -> T) = FragmentViewBindingDelegate(this, viewBindingFactory)
+inline fun <reified T: ViewBinding> Fragment.viewBiding(noinline viewBindingFactory: (LayoutInflater) -> T) = FragmentViewBindingDelegate(this, viewBindingFactory)
 
 class FragmentViewBindingDelegate<T: ViewBinding>(
     private val fragment: Fragment,
-    private val viewBindingFactory: (View) -> T
+    private val viewBindingFactory: (LayoutInflater) -> T
 ) : ReadOnlyProperty<Fragment, T>{
 
     private var binding: T? = null
@@ -39,7 +40,7 @@ class FragmentViewBindingDelegate<T: ViewBinding>(
             error("Cannot access view bindings. Current lifecycle state is ${lifecycle.currentState}!")
         }
 
-        return viewBindingFactory.invoke(thisRef.requireView()).also { this.binding = it }
+        return viewBindingFactory.invoke(LayoutInflater.from(thisRef.requireContext())).also { this.binding = it }
     }
 
 }
