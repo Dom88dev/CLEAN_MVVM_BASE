@@ -6,12 +6,13 @@ import Libraries.testImpl
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    kotlin("plugin.serialization")
-    id("dagger.hilt.android.plugin")
+    id(PluginsModule.KOTLIN_KAPT)
+    kotlin(PluginsModule.SERIALIZATION)
+    id(PluginsModule.HILT)
+    id(PluginsModule.REALM)
     // google-service.json 추가 후 주석 해제
-//    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+//    id(PluginsModule.CLOUD_MESSAGE)
+    id(PluginsModule.CRASHLYTICS)
 }
 
 android {

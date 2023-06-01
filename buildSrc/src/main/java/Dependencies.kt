@@ -19,6 +19,7 @@ object Versions {
     const val ROOM = "2.5.0"
     const val MULTIDEX = "2.0.1"
     const val CAMERA_X = "1.3.0-alpha04"
+    const val CRYPTO = "1.1.0-alpha06"
 
     const val FIREBASE = "31.3.0"
 
@@ -33,11 +34,30 @@ object Versions {
 
     const val TIMBER = "5.0.1"
 
+    const val REALM = "1.8.0"
+
     const val LOTTIE = "6.0.0"
 
     const val JUNIT = "4.13.2"
     const val ANDROID_JUNIT = "1.1.2"
     const val ESPRESSO_CORE = "3.3.0"
+}
+
+object PlugIns {
+    const val ANDROID           = "android"
+    const val JVM               = "jvm"
+    const val SERIALIZATION     = "plugin.serialization"
+    const val HILT              = "com.google.dagger.hilt.android"
+    const val REALM             = "io.realm.kotlin"
+}
+
+object PluginsModule {
+    const val KOTLIN_KAPT       = "kotlin-kapt"
+    const val SERIALIZATION     = "plugin.serialization"
+    const val HILT              = "dagger.hilt.android.plugin"
+    const val REALM             = "io.realm.kotlin"
+    const val CLOUD_MESSAGE     = "com.google.gms.google-services"
+    const val CRASHLYTICS       = "com.google.firebase.crashlytics"
 }
 
 object Libraries {
@@ -82,7 +102,11 @@ object Libraries {
         const val CAMERA_X_LIFECYCLE      = "androidx.camera:camera-lifecycle:${Versions.CAMERA_X}"
         const val CAMERA_X_VIEW           = "androidx.camera:camera-view:${Versions.CAMERA_X}"
 
-        val CameraGroup = listOf(CAMERA_X_CORE, CAMERA_X_CAM2, CAMERA_X_LIFECYCLE, CAMERA_X_VIEW)
+        const val CRYPTO                  = "androidx.security:security-crypto-ktx:${Versions.CRYPTO}"
+
+        val BottomNavigation = listOf(NAVIGATION_UI, NAVIGATION_FRAGMENT)
+        val Room             = listOf(ROOM_RUNTIME, ROOM_KTX)
+        val CameraGroup      = listOf(CAMERA_X_CORE, CAMERA_X_CAM2, CAMERA_X_LIFECYCLE, CAMERA_X_VIEW)
     }
 
     object Firebase {
@@ -106,9 +130,12 @@ object Libraries {
         const val MOSHI_CODEGEN                     = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}"
         // 로그 라이브러리
         const val TIMBER                            = "com.jakewharton.timber:timber:${Versions.TIMBER}"
+        const val REALM_BASE                        = "io.realm.kotlin:library-base:${Versions.REALM}"
+        const val REALM_SYNC                        = "io.realm.kotlin:library-sync:${Versions.REALM}"
         const val LOTTIE                            = "com.airbnb.android:lottie:${Versions.LOTTIE}"
 
         val RetroFitGroup = listOf(RETROFIT, RETROFIT_CONVERTER_GSON, OKHTTP, OKHTTP_LOGGING_INTERCEPTOR)
+        val Realm = listOf(REALM_BASE, REALM_SYNC)
     }
 
     object UnitTest {
@@ -157,15 +184,15 @@ object Libraries {
      * data단에서 사용되는 라이브러리
      */
     object DataLibList {
-        val impl = arrayListOf<String>(
-            AndroidX.ROOM_RUNTIME, AndroidX.ROOM_KTX
-        ).also {
+        val impl = arrayListOf<String>().also {
             it.addAll(ThirdParty.RetroFitGroup)
+            it.addAll(AndroidX.Room)
+            it.addAll(ThirdParty.Realm)
         }
 
-        val kapt = listOf<String>(
-            AndroidX.ROOM_COMPILER
-        )
+        val kapt = arrayListOf<String>().also {
+            it.add(AndroidX.ROOM_COMPILER)
+        }
     }
 
     /**

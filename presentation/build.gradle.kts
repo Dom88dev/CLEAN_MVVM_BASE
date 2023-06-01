@@ -6,11 +6,11 @@ import Libraries.testImpl
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
+    id(PluginsModule.KOTLIN_KAPT)
+    id(PluginsModule.HILT)
     // google-service.json 추가 후 주석 해제
-//    id("com.google.gms.google-services")
-    kotlin("plugin.serialization")
+//    id(PluginsModule.CLOUD_MESSAGE)
+    kotlin(PluginsModule.SERIALIZATION)
 }
 
 android {

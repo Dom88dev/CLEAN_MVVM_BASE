@@ -6,9 +6,10 @@ import Libraries.testImpl
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
-    kotlin("plugin.serialization")
+    id(PluginsModule.KOTLIN_KAPT)
+    id(PluginsModule.HILT)
+    kotlin(PluginsModule.SERIALIZATION)
+    id(PluginsModule.REALM)
 }
 
 android {

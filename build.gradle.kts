@@ -1,11 +1,24 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    kotlin("android") version "1.8.10" apply false
-    kotlin("jvm") version "1.8.10" apply false
-    kotlin("plugin.serialization") version "1.8.10"
-    id("com.google.dagger.hilt.android") version "2.45" apply false
+    kotlin(PlugIns.ANDROID) version Versions.KOTLIN_VERSION apply false
+    kotlin(PlugIns.JVM) version Versions.KOTLIN_VERSION apply false
+    kotlin(PlugIns.SERIALIZATION) version Versions.KOTLIN_VERSION
+    id(PlugIns.HILT) version Versions.HILT apply false
+    id(PlugIns.REALM) version Versions.REALM apply false
 }
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+}
+
+// BuildConfig Field
+subprojects {
+    afterEvaluate {
+        (extensions.findByName("android") as? com.android.build.gradle.BaseExtension)?.apply {
+            defaultConfig {
+                buildConfigField("String", "APPLICATION_ID", "\"${AppConfig.applicationId}\"")
+                buildConfigField("String", "VERSION_NAME", "\"${AppConfig.versionName}\"")
+            }
+        }
+    }
 }
