@@ -2,13 +2,12 @@ package com.dom.presentation.base.delegate
 
 import android.view.LayoutInflater
 import androidx.activity.ComponentActivity
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
-inline fun <reified T : ViewBinding> AppCompatActivity.viewBinding(noinline bindingInflater: (LayoutInflater) -> T) = ActivityViewBindingDelegate(bindingInflater)
+inline fun <reified T : ViewBinding> viewBinding(noinline bindingInflater: (LayoutInflater) -> T) = ActivityViewBindingDelegate(bindingInflater)
 
 class ActivityViewBindingDelegate<T: ViewBinding>(
     private val viewBindingFactory: (LayoutInflater) -> T
