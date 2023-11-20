@@ -8,13 +8,11 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id(PluginsModule.KOTLIN_KAPT)
     id(PluginsModule.HILT)
-    // google-service.json 추가 후 주석 해제
-//    id(PluginsModule.CLOUD_MESSAGE)
     kotlin(PluginsModule.SERIALIZATION)
 }
 
 android {
-    namespace = "com.dom.presentation"
+    namespace = "${AppConfig.baseNameSpace}presentation"
     compileSdk = AppConfig.compileSdk
     buildToolsVersion = AppConfig.buildToolsVersion
     defaultConfig {
@@ -24,13 +22,17 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     viewBinding.isEnabled = true
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
 }
 
 dependencies {

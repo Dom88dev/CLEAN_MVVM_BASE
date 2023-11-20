@@ -14,5 +14,5 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideWeatherRepository(repository: WeatherRepositoryImpl) : WeatherRepository = repository
+    fun provideRepository(repository: WeatherRepositoryImpl) : WeatherRepository = repository
 }

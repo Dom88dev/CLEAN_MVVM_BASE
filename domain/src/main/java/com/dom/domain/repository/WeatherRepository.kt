@@ -1,7 +1,7 @@
 package com.dom.domain.repository
 
-import com.dom.domain.model.CityLog
-import com.dom.domain.model.WeatherInfo
+import com.dom.domain.model.Data.CityLog
+import com.dom.domain.model.Data.WeatherInfo
 import kotlinx.coroutines.flow.Flow
 
 interface WeatherRepository {

@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.Job
 import timber.log.Timber
@@ -14,10 +16,23 @@ abstract class BaseFragment<VM: BaseViewModel, VB: ViewBinding>: Fragment() {
     abstract val vm: VM
     abstract val vb: VB
     private lateinit var fetchJob: Job
+
+    //    lateinit var backPressedCallback: OnBackPressedCallback
+
     abstract fun initViews()
     abstract fun observeData(): Job
 
     open fun initScreen() {
+        //region 뒤로가기 콜백 코드 상속 구현
+//        object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                onBackPressedCallback()
+//            }
+//        }.also {
+//            backPressedCallback = it
+//            requireActivity().onBackPressedDispatcher.addCallback(this.viewLifecycleOwner, it)
+//        }
+        //endregion
         initViews()
         fetchJob = vm.fetch()
         observeData()
@@ -40,6 +55,27 @@ abstract class BaseFragment<VM: BaseViewModel, VB: ViewBinding>: Fragment() {
         super.onDestroyView()
         if (fetchJob.isActive) {
             fetchJob.cancel()
+        }
+    }
+
+//    open fun onBackPressedCallback() {
+//        if(requireActivity() is BaseActivity<*, *>) {
+//            (requireActivity() as BaseActivity<*, *>).backPressedCallback.handleOnBackPressed()
+//        }
+//    }
+
+    fun showDialog(dialog: DialogFragment, tag: String = "dialog", onDismiss: (() -> Unit)? = null) {
+        requireActivity().supportFragmentManager.commit {
+            requireActivity().supportFragmentManager.findFragmentByTag(tag)?.also {
+                remove(it)
+            }
+        }
+        dialog.show(requireActivity().supportFragmentManager, tag)
+        onDismiss?.also { callback ->
+            requireActivity().supportFragmentManager.executePendingTransactions()
+            dialog.dialog?.setOnDismissListener {
+                callback.invoke()
+            }
         }
     }
 

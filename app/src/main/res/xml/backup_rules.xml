@@ -10,4 +10,5 @@
    <include domain="sharedpref" path="."/>
    <exclude domain="sharedpref" path="device.xml"/>
 -->
+    <exclude domain="sharedpref" path="encrypted_app_pref.xml"/>
 </full-backup-content>

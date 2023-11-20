@@ -2,8 +2,8 @@ package com.dom.data.repository
 
 import com.dom.data.source.LogDataSource
 import com.dom.data.source.OpenWeatherRemoteSource
-import com.dom.domain.model.CityLog
-import com.dom.domain.model.WeatherInfo
+import com.dom.domain.model.Data.CityLog
+import com.dom.domain.model.Data.WeatherInfo
 import com.dom.domain.repository.WeatherRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

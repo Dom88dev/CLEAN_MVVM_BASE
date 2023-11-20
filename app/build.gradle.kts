@@ -9,19 +9,18 @@ plugins {
     id(PluginsModule.KOTLIN_KAPT)
     kotlin(PluginsModule.SERIALIZATION)
     id(PluginsModule.HILT)
-    id(PluginsModule.REALM)
     // google-service.json 추가 후 주석 해제
 //    id(PluginsModule.CLOUD_MESSAGE)
     id(PluginsModule.CRASHLYTICS)
 }
 
 android {
-    namespace = "com.dom.clean_mvvm_base"
+    namespace = AppConfig.applicationId
     compileSdk = AppConfig.compileSdk
     buildToolsVersion = AppConfig.buildToolsVersion
 
     defaultConfig {
-        applicationId = "com.dom.clean_mvvm_base"
+        applicationId = AppConfig.applicationId
         minSdk = AppConfig.minSdk
         targetSdk = AppConfig.targetSdk
         versionCode = AppConfig.versionCode
@@ -36,39 +35,69 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isDebuggable = false
+            proguardFile(getDefaultProguardFile("proguard-android.txt"))
+            val files = rootProject.file("proguard").listFiles()?.filter { it.name.startsWith("proguard") }?.toTypedArray() ?: toTypedArray()
+            proguardFiles(*files)
         }
         debug {
             isMinifyEnabled = false
             isShrinkResources = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isDebuggable = true
+            proguardFile(getDefaultProguardFile("proguard-android.txt"))
+            val files = rootProject.file("proguard").listFiles()?.filter { it.name.startsWith("proguard") }?.toTypedArray() ?: toTypedArray()
+            proguardFiles(*files)
+        }
+    }
+    flavorDimensions += "server"
+    productFlavors {
+        create("local") {
+            dimension = "server"
+            buildConfigField("String", "BASE_DOMAIN_URL", "\"http://19.19.20.139:8080\"")
+            buildConfigField("String", "SECRET", "\"secret\"")
+        }
+        create("staging") {
+            dimension = "server"
+            buildConfigField("String", "BASE_DOMAIN_URL", "\"http://112.217.204.155:8080\"")
+            buildConfigField("String", "SECRET", "\"secret\"")
+        }
+        create("live") {
+            dimension = "server"
+            buildConfigField("String", "BASE_DOMAIN_URL", "\"https://gw.aiccsharing.com/\"")
+            buildConfigField("String", "SECRET", "\"vpLhklaBDL\"")
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 
     viewBinding.isEnabled = true
 
-    packagingOptions {
-        resources.excludes.add("META-INF/DEPENDENCIES")
-        resources.excludes.add("META-INF/LICENSE")
-        resources.excludes.add("META-INF/LICENSE.txt")
-        resources.excludes.add("META-INF/license.txt")
-        resources.excludes.add("META-INF/NOTICE")
-        resources.excludes.add("META-INF/NOTICE.txt")
-        resources.excludes.add("META-INF/notice.txt")
-        resources.excludes.add("META-INF/ASL2.0")
-        resources.excludes.add("META-INF/*.kotlin_module")
-        resources.excludes.add("META-INF/versions/9/previous-compilation-data.bin")
+    packaging {
+        resources {
+            excludes += "/META-INF/DEPENDENCIES"
+            excludes += "/META-INF/LICENSE"
+            excludes += "/META-INF/LICENSE.txt"
+            excludes += "/META-INF/license.txt"
+            excludes += "/META-INF/NOTICE"
+            excludes += "/META-INF/NOTICE.txt"
+            excludes += "/META-INF/notice.txt"
+            excludes += "/META-INF/ASL2.0"
+            excludes += "/META-INF/*.kotlin_module"
+            excludes += "/META-INF/versions/9/previous-compilation-data.bin"
+        }
     }
 }
 

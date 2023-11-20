@@ -16,6 +16,8 @@ import timber.log.Timber
 import com.dom.domain.model.Result
 import com.dom.presentation.base.dialog.DialogListener
 import com.dom.presentation.databinding.DialogProgressBinding
+import com.dom.presentation.util.Extensions.createNotificationChannels
+import com.dom.presentation.util.SharedPreferenceManager
 
 abstract class BaseActivity<VM: BaseViewModel, VB: ViewBinding> : AppCompatActivity(), DialogListener {
 
@@ -24,6 +26,9 @@ abstract class BaseActivity<VM: BaseViewModel, VB: ViewBinding> : AppCompatActiv
     private lateinit var fetchJob: Job
     abstract fun initViews()
     abstract fun observeData(): Job
+
+    //shared preferences 를 사용할 경우 주석 해제
+//    lateinit var prefs: SharedPreferenceManager
 
     protected val requestPermissionsLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
@@ -40,6 +45,9 @@ abstract class BaseActivity<VM: BaseViewModel, VB: ViewBinding> : AppCompatActiv
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //shared preferences 를 사용할 경우 주석 해제
+//        prefs = SharedPreferenceManager(applicationContext)
+        createNotificationChannels()
         initScreen()
     }
 

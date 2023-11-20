@@ -4,7 +4,7 @@ plugins {
     kotlin(PlugIns.JVM) version Versions.KOTLIN_VERSION apply false
     kotlin(PlugIns.SERIALIZATION) version Versions.KOTLIN_VERSION
     id(PlugIns.HILT) version Versions.HILT apply false
-    id(PlugIns.REALM) version Versions.REALM apply false
+//    id(PlugIns.REALM) version Versions.REALM apply false
 }
 
 tasks.register("clean", Delete::class) {

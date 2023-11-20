@@ -9,11 +9,11 @@ plugins {
     id(PluginsModule.KOTLIN_KAPT)
     id(PluginsModule.HILT)
     kotlin(PluginsModule.SERIALIZATION)
-    id(PluginsModule.REALM)
+//    id(PluginsModule.REALM)
 }
 
 android {
-    namespace = "com.dom.data"
+    namespace = "${AppConfig.baseNameSpace}data"
     compileSdk = AppConfig.compileSdk
     buildToolsVersion = AppConfig.buildToolsVersion
     defaultConfig {
@@ -31,12 +31,15 @@ android {
             }
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 

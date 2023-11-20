@@ -7,14 +7,14 @@ object Versions {
     const val BUILD_GRADLE = "4.2.1"
 
     const val HILT = "2.45"
-    const val MATERIAL = "1.8.0"
+    const val MATERIAL = "1.10.0"
 
     const val CORE_KTX = "1.8.0"
     const val APP_COMPAT = "1.6.1"
     const val ACTIVITY_KTX = "1.7.0"
     const val FRAGMENT_KTX = "1.5.6"
     const val NAVIGATION = "2.5.3"
-    const val CONSTRAINT_LAYOUT = "2.1.4"
+    const val CONSTRAINT_LAYOUT = "2.2.0-alpha07"
     const val LIFECYCLE_KTX = "2.6.1"
     const val ROOM = "2.5.0"
     const val MULTIDEX = "2.0.1"
@@ -39,8 +39,8 @@ object Versions {
     const val LOTTIE = "6.0.0"
 
     const val JUNIT = "4.13.2"
-    const val ANDROID_JUNIT = "1.1.2"
-    const val ESPRESSO_CORE = "3.3.0"
+    const val ANDROID_JUNIT = "1.1.5"
+    const val ESPRESSO_CORE = "3.5.1"
 }
 
 object PlugIns {
@@ -102,11 +102,11 @@ object Libraries {
         const val CAMERA_X_LIFECYCLE      = "androidx.camera:camera-lifecycle:${Versions.CAMERA_X}"
         const val CAMERA_X_VIEW           = "androidx.camera:camera-view:${Versions.CAMERA_X}"
 
+        //키를 안전하게 관리하고 파일 및 sharedpreference를 암호화
         const val CRYPTO                  = "androidx.security:security-crypto-ktx:${Versions.CRYPTO}"
 
         val BottomNavigation = listOf(NAVIGATION_UI, NAVIGATION_FRAGMENT)
         val Room             = listOf(ROOM_RUNTIME, ROOM_KTX)
-        val CameraGroup      = listOf(CAMERA_X_CORE, CAMERA_X_CAM2, CAMERA_X_LIFECYCLE, CAMERA_X_VIEW)
     }
 
     object Firebase {
@@ -130,9 +130,17 @@ object Libraries {
         const val MOSHI_CODEGEN                     = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI}"
         // 로그 라이브러리
         const val TIMBER                            = "com.jakewharton.timber:timber:${Versions.TIMBER}"
+
         const val REALM_BASE                        = "io.realm.kotlin:library-base:${Versions.REALM}"
         const val REALM_SYNC                        = "io.realm.kotlin:library-sync:${Versions.REALM}"
+
         const val LOTTIE                            = "com.airbnb.android:lottie:${Versions.LOTTIE}"
+        // kakao link
+        const val KAKAO_LINK                        = "com.kakao.sdk:v2-share:2.11.0"
+        // PDF 뷰어
+        const val PDF_VIEWER                        = "com.github.mhiew:android-pdf-viewer:3.2.0-beta.3"
+
+        const val NAVER_MAP                         = "com.naver.maps:map-sdk:3.17.0"
 
         val RetroFitGroup = listOf(RETROFIT, RETROFIT_CONVERTER_GSON, OKHTTP, OKHTTP_LOGGING_INTERCEPTOR)
         val Realm = listOf(REALM_BASE, REALM_SYNC)
@@ -172,12 +180,9 @@ object Libraries {
      * app단에서 사용되는 라이브러리
      */
     object AppLibList {
-        val impl = arrayListOf<String>(
-            Firebase.MESSAGING, Firebase.ANALYTICS, Firebase.CRASHLYTICS,
+        val impl = listOf<String>(
             AndroidX.MULTIDEX
-        ).also {
-            it.addAll(AndroidX.CameraGroup)
-        }
+        )
     }
 
     /**
@@ -187,7 +192,7 @@ object Libraries {
         val impl = arrayListOf<String>().also {
             it.addAll(ThirdParty.RetroFitGroup)
             it.addAll(AndroidX.Room)
-            it.addAll(ThirdParty.Realm)
+//            it.addAll(ThirdParty.Realm)
         }
 
         val kapt = arrayListOf<String>().also {
@@ -202,9 +207,14 @@ object Libraries {
         val impl = arrayListOf<String>(
             AndroidX.ACTIVITY_KTX, AndroidX.FRAGMENT_KTX,
             AndroidX.CONSTRAINT_LAYOUT, AndroidX.LIFECYCLE_VIEWMODEL_KTX,
-            Firebase.MESSAGING, ThirdParty.GLIDE, ThirdParty.LOTTIE
+            Firebase.MESSAGING, Firebase.ANALYTICS, Firebase.CRASHLYTICS,
+            ThirdParty.GLIDE
         ).also {
-            it.addAll(AndroidX.CameraGroup)
+            it.addAll(AndroidX.BottomNavigation)
+            it.add(ThirdParty.KAKAO_LINK)
+            it.add(ThirdParty.PDF_VIEWER)
+            it.add(AndroidX.CRYPTO)
+            it.add(ThirdParty.NAVER_MAP)
         }
 
         val kapt = listOf<String>(

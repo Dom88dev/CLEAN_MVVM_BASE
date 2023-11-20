@@ -1,5 +1,7 @@
 package com.dom.presentation.base.dialog
 
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
@@ -9,6 +11,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.activity.addCallback
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -80,7 +83,13 @@ abstract class BaseBottomDialog<T : ViewBinding, L : DialogListener>(
             //todo 색상 id 변경
             it.statusBarColor = resources.getColor(android.R.color.transparent, null)
         }
-        return binding.root
+        return binding.root.also {
+            // 팝업 시작 애니메이터 지정
+//            (AnimatorInflater.loadAnimator(requireContext(), R.anim.animation) as AnimatorSet).apply {
+//            setTarget(it)
+//            start()
+//            }
+        }
     }
 
     // 길이가 화면의 절반을 넘어가는 다이얼로그의 경우 STATE_HALF_EXPANDED 상태로 열리는데 완전히 펼쳐진 상태로 열리도록 처리하는 코드
@@ -95,8 +104,13 @@ abstract class BaseBottomDialog<T : ViewBinding, L : DialogListener>(
                 setBeHaviorBefore()
             }
         }
+        dialog.onBackPressedDispatcher.addCallback {
+            slideDown()
+        }
         return dialog
     }
+
+    open fun slideDown() {}
 
     override fun onDestroyView() {
         super.onDestroyView()

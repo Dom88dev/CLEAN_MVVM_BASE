@@ -1,14 +1,23 @@
 package com.dom.data.mapper
 
-import com.dom.data.model.LogCityName
-import com.dom.data.model.WeatherRes
-import com.dom.domain.model.CityLog
-import com.dom.domain.model.WeatherInfo
+import com.dom.data.model.EntityLogCityName
+import com.dom.data.model.ResponseData
+import com.dom.domain.model.Data
 
 object WeatherDataMapper {
 
-    fun toWeatherInfo(data: WeatherRes) : WeatherInfo {
-        return WeatherInfo(
+    fun toData(res: ResponseData): Data {
+        return when (res) {
+            is ResponseData.WeatherRes -> {
+                toWeatherInfo(res)
+            }
+
+            else -> Data.NoData
+        }
+    }
+
+    fun toWeatherInfo(data: ResponseData.WeatherRes): Data.WeatherInfo {
+        return Data.WeatherInfo(
             System.currentTimeMillis(),
             data.main.temperature,
             data.main.maxTemp,
@@ -19,9 +28,9 @@ object WeatherDataMapper {
         )
     }
 
-    fun toCityLog(data: LogCityName) : CityLog = CityLog(data.name, data.timestamp)
-    fun toLogCityName(data: CityLog) : LogCityName {
-        val result = LogCityName(data.name)
+    fun toCityLog(data: EntityLogCityName): Data.CityLog = Data.CityLog(data.name, data.timestamp)
+    fun toLogCityName(data: Data.CityLog): EntityLogCityName {
+        val result = EntityLogCityName(data.name)
         result.timestamp = data.timestamp
         return result
     }

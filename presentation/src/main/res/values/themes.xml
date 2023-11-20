@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.BOB_Driver" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.App" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_200</item>
         <item name="colorPrimaryVariant">@color/purple_500</item>
@@ -43,8 +43,14 @@
         </item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="enableEdgeToEdge">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:statusBarColor">#14000000</item>
+    </style>
+
+    <style name="ProgressDialogTheme" parent="BottomDialogFragmentTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
@@ -66,7 +72,7 @@
     </style>
 
 
-    <style name="BOB_Driver.textLabel" parent="Theme.BOB_Driver">
+    <style name="BOB_Driver.textLabel" parent="Theme.App">
         <item name="android:textSize">18sp</item>
         <item name="lineHeight">24sp</item>
         <item name="android:textStyle">bold</item>

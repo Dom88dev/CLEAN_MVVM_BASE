@@ -2,7 +2,7 @@ package com.dom.data.source
 
 import com.dom.data.local.CityNameLogDao
 import com.dom.data.mapper.WeatherDataMapper
-import com.dom.domain.model.CityLog
+import com.dom.domain.model.Data.CityLog
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
