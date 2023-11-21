@@ -32,7 +32,12 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        //compose 설정
+//        compose = true
     }
+//    composeOptions {
+//        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPOSE_COMPILER
+//    }
 }
 
 dependencies {
@@ -44,6 +49,9 @@ dependencies {
     implementation(Libraries.ThirdParty.GLIDE_OKHTTP) {
         exclude("glide-parent")
     }
+
+//    implementation(platform(Libraries.Compose.BOM))
+//    impl(Libraries.Compose.composeLibs)
 
     impl(Libraries.CommonLibList.impl)
     kapt(Libraries.CommonLibList.kapt)

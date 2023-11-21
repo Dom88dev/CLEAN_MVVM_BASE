@@ -4,7 +4,11 @@ object Versions {
     const val KOTLIN_VERSION = "1.8.10"
     const val KOTLINX_COROUTINES = "1.7.0-Beta"
     const val KOTLINX_SERIALIZATION_JSON = "1.5.0"
-    const val BUILD_GRADLE = "4.2.1"
+    const val KOTLIN_COMPOSE_COMPILER = "1.4.4"
+    const val COMPOSE_BOM = "2023.08.00"
+    const val ACCOMPANIST = "0.30.1"
+    const val COMPOSE_CONSTRAINT_LAYOUT = "1.0.1"
+    const val COMPOSE_GLIDE = "1.0.0-alpha.3"
 
     const val HILT = "2.45"
     const val MATERIAL = "1.10.0"
@@ -107,6 +111,48 @@ object Libraries {
 
         val BottomNavigation = listOf(NAVIGATION_UI, NAVIGATION_FRAGMENT)
         val Room             = listOf(ROOM_RUNTIME, ROOM_KTX)
+    }
+
+    object Compose {
+        const val BOM               = "androidx.compose:compose-bom:${Versions.COMPOSE_BOM}"
+        const val MATERIAL          = "androidx.compose.material3:material3"
+        const val FOUNDATION        = "androidx.compose.foundation:foundation"
+        const val FOUND_LAYOUT      = "androidx.compose.foundation:foundation-layout"
+        const val LAYOUT            = "androidx.compose.foundation:foundation-layout"
+        const val RUNTIME           = "androidx.compose.runtime:runtime"
+        const val UI                = "androidx.compose.ui:ui"
+        const val UI_TOOL           = "androidx.compose.ui:ui-tooling"   // debugImplementation
+        const val PREVIEW           = "androidx.compose.ui:ui-tooling-preview"
+        const val VIEW_BINDING      = "androidx.compose.ui:ui-viewbinding"
+
+        const val PERMISSIONS       = "com.google.accompanist:accompanist-permissions:${Versions.ACCOMPANIST}"
+        const val SYSTEM_UI         = "com.google.accompanist:accompanist-systemuicontroller:${Versions.ACCOMPANIST}"
+        const val WEB               = "com.google.accompanist:accompanist-webview:${Versions.ACCOMPANIST}"
+
+        const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout-compose:${Versions.COMPOSE_CONSTRAINT_LAYOUT}"
+        const val ACTIVITY          = "androidx.activity:activity-compose:${Versions.ACTIVITY_KTX}"
+        const val VIEW_MODEL        = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.LIFECYCLE_KTX}"
+
+        const val GLIDE = "com.github.bumptech.glide:compose:${Versions.COMPOSE_GLIDE}"
+
+        val composeLibs = arrayListOf(
+            MATERIAL,
+            FOUNDATION,
+            FOUND_LAYOUT,
+            LAYOUT,
+            RUNTIME,
+            UI,
+            PERMISSIONS,
+            SYSTEM_UI,
+            WEB,
+            VIEW_BINDING,
+            PREVIEW,
+            ACTIVITY,
+            VIEW_MODEL,
+            CONSTRAINT_LAYOUT,
+            VIEW_BINDING,
+            GLIDE
+        )
     }
 
     object Firebase {

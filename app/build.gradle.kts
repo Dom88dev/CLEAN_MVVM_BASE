@@ -37,7 +37,11 @@ android {
 
     buildFeatures {
         buildConfig = true
+//        compose = true
     }
+//    composeOptions {
+//        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPOSE_COMPILER
+//    }
 
     buildTypes {
         release {
@@ -110,6 +114,9 @@ dependencies {
     impl(Libraries.AppLibList.impl)
     impl(Libraries.DataLibList.impl)
     kapt(Libraries.DataLibList.kapt)
+
+//    implementation(platform(Libraries.Compose.BOM))
+//    impl(Libraries.Compose.composeLibs)
 
     impl(Libraries.CommonLibList.impl)
     kapt(Libraries.CommonLibList.kapt)
