@@ -9,11 +9,11 @@ pluginManagement {
             }
         }
         dependencies {
-            classpath("com.android.tools.build:gradle:8.1.3")
+            classpath("com.android.tools.build:gradle:8.7.2")
             //            hilt 에서 javapoet 관련 not found method 관련 대응..
             classpath("com.squareup:javapoet:1.13.0")
-            classpath("com.google.gms:google-services:4.4.0")
-            classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+            classpath("com.google.gms:google-services:4.4.2")
+            classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.2")
         }
     }
 }
