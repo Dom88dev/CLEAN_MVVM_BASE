@@ -1,7 +1,7 @@
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Versions {
-    const val KOTLIN_VERSION = "1.8.10"
+    const val KOTLIN_VERSION = "1.9.20"
     const val KOTLINX_COROUTINES = "1.7.0-Beta"
     const val KOTLINX_SERIALIZATION_JSON = "1.5.0"
     const val KOTLIN_COMPOSE_COMPILER = "1.4.4"
@@ -10,7 +10,7 @@ object Versions {
     const val COMPOSE_CONSTRAINT_LAYOUT = "1.0.1"
     const val COMPOSE_GLIDE = "1.0.0-alpha.3"
 
-    const val HILT = "2.45"
+    const val HILT = "2.50"
     const val MATERIAL = "1.10.0"
 
     const val CORE_KTX = "1.8.0"
@@ -53,10 +53,12 @@ object PlugIns {
     const val SERIALIZATION     = "plugin.serialization"
     const val HILT              = "com.google.dagger.hilt.android"
     const val REALM             = "io.realm.kotlin"
+    const val KSP               = "com.google.devtools.ksp"
 }
 
 object PluginsModule {
     const val KOTLIN_KAPT       = "kotlin-kapt"
+    const val KSP               = "com.google.devtools.ksp"
     const val SERIALIZATION     = "plugin.serialization"
     const val HILT              = "dagger.hilt.android.plugin"
     const val REALM             = "io.realm.kotlin"
@@ -257,10 +259,8 @@ object Libraries {
             ThirdParty.GLIDE
         ).also {
             it.addAll(AndroidX.BottomNavigation)
-            it.add(ThirdParty.KAKAO_LINK)
             it.add(ThirdParty.PDF_VIEWER)
             it.add(AndroidX.CRYPTO)
-            it.add(ThirdParty.NAVER_MAP)
         }
 
         val kapt = listOf<String>(
@@ -268,9 +268,9 @@ object Libraries {
         )
     }
 
-    fun DependencyHandler.kapt(list: List<String>) {
+    fun DependencyHandler.ksp(list: List<String>) {
         list.forEach { dpc ->
-            add("kapt", dpc)
+            add("ksp", dpc)
         }
     }
 

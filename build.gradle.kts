@@ -4,6 +4,7 @@ plugins {
     kotlin(PlugIns.JVM) version Versions.KOTLIN_VERSION apply false
     kotlin(PlugIns.SERIALIZATION) version Versions.KOTLIN_VERSION
     id(PlugIns.HILT) version Versions.HILT apply false
+    id(PlugIns.KSP) version "1.9.20-1.0.14" apply false
 //    id(PlugIns.REALM) version Versions.REALM apply false
 }
 

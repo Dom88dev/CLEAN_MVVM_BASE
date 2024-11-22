@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="17">
-      <module name="CLEAN_MVVM_BASE.app" target="21" />
-      <module name="CLEAN_MVVM_BASE.buildSrc" target="21" />
-      <module name="CLEAN_MVVM_BASE.buildSrc.main" target="21" />
-      <module name="CLEAN_MVVM_BASE.buildSrc.test" target="21" />
-      <module name="CLEAN_MVVM_BASE.data" target="21" />
-      <module name="CLEAN_MVVM_BASE.presentation" target="21" />
+    <bytecodeTargetLevel target="21">
       <module name="MVVM_Base.app" target="11" />
       <module name="MVVM_Base.buildSrc" target="11" />
       <module name="MVVM_Base.buildSrc.main" target="11" />

@@ -1,12 +1,12 @@
 import Libraries.androidTestImpl
 import Libraries.impl
-import Libraries.kapt
+import Libraries.ksp
 import Libraries.testImpl
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id(PluginsModule.KOTLIN_KAPT)
+    id(PluginsModule.KSP)
     id(PluginsModule.HILT)
     kotlin(PluginsModule.SERIALIZATION)
 }
@@ -22,11 +22,13 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        // android 26 아래 버전에서 LocalDate 내의 일부 함수를 사용하기위해 desugaring 설정
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
     viewBinding.isEnabled = true
     buildFeatures {
@@ -43,9 +45,12 @@ android {
 dependencies {
     implementation(project(":domain"))
 
+    // android 26 아래 버전에서 LocalDate 내의 일부 함수를 사용하기위해 desugaring 설정
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.3")
+
     implementation(platform(Libraries.Firebase.FB_PLATFORM))
     impl(Libraries.PresentationLibList.impl)
-    kapt(Libraries.PresentationLibList.kapt)
+    ksp(Libraries.PresentationLibList.kapt)
     implementation(Libraries.ThirdParty.GLIDE_OKHTTP) {
         exclude("glide-parent")
     }
@@ -54,7 +59,7 @@ dependencies {
 //    impl(Libraries.Compose.composeLibs)
 
     impl(Libraries.CommonLibList.impl)
-    kapt(Libraries.CommonLibList.kapt)
+    ksp(Libraries.CommonLibList.kapt)
     testImpl(Libraries.CommonLibList.test)
     androidTestImpl(Libraries.CommonLibList.androidTest)
 }

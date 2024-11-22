@@ -1,12 +1,12 @@
 import Libraries.androidTestImpl
 import Libraries.impl
-import Libraries.kapt
+import Libraries.ksp
 import Libraries.testImpl
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id(PluginsModule.KOTLIN_KAPT)
+    id(PluginsModule.KSP)
     id(PluginsModule.HILT)
     kotlin(PluginsModule.SERIALIZATION)
 //    id(PluginsModule.REALM)
@@ -35,11 +35,11 @@ android {
         buildConfig = true
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
 
@@ -47,10 +47,10 @@ dependencies {
     implementation(project(":domain"))
 
     impl(Libraries.DataLibList.impl)
-    kapt(Libraries.DataLibList.kapt)
+    ksp(Libraries.DataLibList.kapt)
 
     impl(Libraries.CommonLibList.impl)
-    kapt(Libraries.CommonLibList.kapt)
+    ksp(Libraries.CommonLibList.kapt)
     testImpl(Libraries.CommonLibList.test)
     androidTestImpl(Libraries.CommonLibList.androidTest)
 }
