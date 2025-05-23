@@ -1,7 +1,5 @@
 package com.dom.presentation.base.dialog
 
-import android.animation.AnimatorInflater
-import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
@@ -13,14 +11,14 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.addCallback
 import androidx.viewbinding.ViewBinding
+import com.dom.presentation.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-abstract class BaseBottomDialog<T : ViewBinding, L : DialogListener>(
-    private val dialogListener: L,
-    private val inflate: (inflater: LayoutInflater, container: ViewGroup?, b: Boolean) -> T
-) : BottomSheetDialogFragment() {
+abstract class BaseBottomDialog<T : ViewBinding, L : DialogListener> : BottomSheetDialogFragment() {
+
+    abstract val inflate: (inflater: LayoutInflater, container: ViewGroup?, b: Boolean) -> T
 
     protected lateinit var binding: T
         private set
@@ -29,8 +27,15 @@ abstract class BaseBottomDialog<T : ViewBinding, L : DialogListener>(
 
     protected lateinit var behavior: BottomSheetBehavior<View>
 
-    private var statusBarColor: Int? = null
+    val rootView: View get() = binding.root
 
+    fun isBindingInflated(): Boolean = ::binding.isInitialized
+
+    override fun getTheme(): Int {
+        return R.style.DialogFragmentTheme
+    }
+
+    // 다이얼로그안에 리스트가 있을 경우 활용
     @SuppressLint("ClickableViewAccessibility")
     val touchListener = View.OnTouchListener { view, motionEvent ->
         when (motionEvent.action) {
@@ -52,16 +57,21 @@ abstract class BaseBottomDialog<T : ViewBinding, L : DialogListener>(
         true
     }
 
+    fun setDialogListener(listener: L) {
+        this.listener = listener
+    }
+
     private fun initBinding(inflater: LayoutInflater, container: ViewGroup?) {
         binding = inflate(inflater, container, false)
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun onAttach(context: Context) {
         super.onAttach(context)
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the AddPatientDialogListener so we can send events to the host
-            listener = dialogListener
+            if (!::listener.isInitialized) listener = context as L
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
             throw ClassCastException(
@@ -77,18 +87,8 @@ abstract class BaseBottomDialog<T : ViewBinding, L : DialogListener>(
         savedInstanceState: Bundle?
     ): View? {
         initBinding(inflater, container)
-        // 뷰를 생성할 때 스테이터스바 색상을 바꿔주며 기존 색상을 저장해둔다.
-        activity?.window?.let {
-            statusBarColor = it.statusBarColor
-            //todo 색상 id 변경
-            it.statusBarColor = resources.getColor(android.R.color.transparent, null)
-        }
         return binding.root.also {
             // 팝업 시작 애니메이터 지정
-//            (AnimatorInflater.loadAnimator(requireContext(), R.anim.animation) as AnimatorSet).apply {
-//            setTarget(it)
-//            start()
-//            }
         }
     }
 
@@ -99,7 +99,7 @@ abstract class BaseBottomDialog<T : ViewBinding, L : DialogListener>(
             val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.let { v ->
                 behavior = BottomSheetBehavior.from(v)
-                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.state = BottomSheetBehavior.STATE_HIDDEN
                 behavior.skipCollapsed = true
                 setBeHaviorBefore()
             }
@@ -110,15 +110,10 @@ abstract class BaseBottomDialog<T : ViewBinding, L : DialogListener>(
         return dialog
     }
 
-    open fun slideDown() {}
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // 바꾼 스테이터스바 색상을 원래대로 되돌린다.
-        statusBarColor?.let {
-            activity?.window?.statusBarColor = it
-        }
+    open fun slideDown() {
+        behavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
+
 
     open fun setBeHaviorBefore() {
         // 혹여나 bottomSheetBehavior 의 초기 값을 변경하려면 override 해서 세팅

@@ -111,6 +111,9 @@ object Libraries {
         //키를 안전하게 관리하고 파일 및 sharedpreference를 암호화
         const val CRYPTO                  = "androidx.security:security-crypto-ktx:${Versions.CRYPTO}"
 
+        // spring 애니메이션 라이브러리
+        const val DYNAMIC_ANIM            = "androidx.dynamicanimation:dynamicanimation-ktx:1.1.0"
+
         val BottomNavigation = listOf(NAVIGATION_UI, NAVIGATION_FRAGMENT)
         val Room             = listOf(ROOM_RUNTIME, ROOM_KTX)
     }
@@ -243,7 +246,7 @@ object Libraries {
 //            it.addAll(ThirdParty.Realm)
         }
 
-        val kapt = arrayListOf<String>().also {
+        val ksp = arrayListOf<String>().also {
             it.add(AndroidX.ROOM_COMPILER)
         }
     }
@@ -256,14 +259,14 @@ object Libraries {
             AndroidX.ACTIVITY_KTX, AndroidX.FRAGMENT_KTX,
             AndroidX.CONSTRAINT_LAYOUT, AndroidX.LIFECYCLE_VIEWMODEL_KTX,
             Firebase.MESSAGING, Firebase.ANALYTICS, Firebase.CRASHLYTICS,
-            ThirdParty.GLIDE
+            ThirdParty.GLIDE, AndroidX.DYNAMIC_ANIM
         ).also {
             it.addAll(AndroidX.BottomNavigation)
             it.add(ThirdParty.PDF_VIEWER)
             it.add(AndroidX.CRYPTO)
         }
 
-        val kapt = listOf<String>(
+        val ksp = listOf<String>(
             ThirdParty.GLIDE_COMPILER
         )
     }

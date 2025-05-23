@@ -47,7 +47,7 @@ dependencies {
     implementation(project(":domain"))
 
     impl(Libraries.DataLibList.impl)
-    ksp(Libraries.DataLibList.kapt)
+    ksp(Libraries.DataLibList.ksp)
 
     impl(Libraries.CommonLibList.impl)
     ksp(Libraries.CommonLibList.kapt)

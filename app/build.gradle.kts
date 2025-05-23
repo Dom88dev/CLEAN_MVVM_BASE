@@ -141,7 +141,7 @@ dependencies {
     implementation(platform(Libraries.Firebase.FB_PLATFORM))
     impl(Libraries.AppLibList.impl)
     impl(Libraries.DataLibList.impl)
-    ksp(Libraries.DataLibList.kapt)
+    ksp(Libraries.DataLibList.ksp)
 
 //    implementation(platform(Libraries.Compose.BOM))
 //    impl(Libraries.Compose.composeLibs)

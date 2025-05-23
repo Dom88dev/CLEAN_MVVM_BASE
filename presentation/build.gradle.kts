@@ -50,7 +50,7 @@ dependencies {
 
     implementation(platform(Libraries.Firebase.FB_PLATFORM))
     impl(Libraries.PresentationLibList.impl)
-    ksp(Libraries.PresentationLibList.kapt)
+    ksp(Libraries.PresentationLibList.ksp)
     implementation(Libraries.ThirdParty.GLIDE_OKHTTP) {
         exclude("glide-parent")
     }

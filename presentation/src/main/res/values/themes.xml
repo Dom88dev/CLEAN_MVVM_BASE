@@ -13,13 +13,6 @@
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
-        <item name="fontFamily">@font/pretendard</item>
-        <item name="android:fontFamily">@font/pretendard</item>
-        <item name="android:includeFontPadding">false</item>
-
-        <item name="dialogTheme">@style/DialogTheme</item>
-        <item name="android:dialogTheme">@style/DialogTheme</item>
-        <item name="bottomSheetDialogTheme">@style/BottomDialogFragmentTheme</item>
     </style>
 
     <!--  배경 투명화를 위한 style
@@ -27,48 +20,23 @@
 				하단에서 올라오는 애니메이션을 적용하기 위해 windowAnimationStyle에는
 				material테마의 애니메이션을 가져옴,
 				상단의 statusBar가 안뜨도록 하기 위해서는 windowFullscreen을 true로 설정  -->
-    <style name="BottomDialogFragmentTheme" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryDark">@color/purple_500</item>
-        <item name="colorAccent">@color/purple_700</item>
-        <item name="android:windowBackground">#14000000</item>
-        <item name="android:windowIsFloating">false</item>
+    <style name="DialogFragmentTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowFrame">@null</item>
-        <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowTitleStyle">@null</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowAnimationStyle">
-            @style/Animation.MaterialComponents.BottomSheetDialog
-        </item>
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowNoTitle">true</item>
         <item name="windowNoTitle">true</item>
         <item name="enableEdgeToEdge">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:statusBarColor">#14000000</item>
-    </style>
-
-    <style name="ProgressDialogTheme" parent="BottomDialogFragmentTheme">
+        <item name="statusBarBackground">@color/white</item>
+        <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
-
-    <style name="DialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryDark">@color/purple_500</item>
-        <item name="colorAccent">@color/purple_700</item>
-        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:backgroundDimAmount">.32</item>
-        <item name="colorSurface">@android:color/transparent</item>
-        <item name="fontFamily">@font/pretendard</item>
-        <item name="android:buttonStyle">?android:attr/borderlessButtonStyle</item>
-    </style>
-
-    <style name="DialogTheme.FullScreen" parent="DialogTheme">
-        <item name="android:windowFullscreen">true</item>
+        <item name="android:backgroundDimAmount">0.4</item>
     </style>
 
 
