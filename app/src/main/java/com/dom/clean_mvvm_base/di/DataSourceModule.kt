@@ -1,9 +1,9 @@
 package com.dom.clean_mvvm_base.di
 
-import com.dom.data.source.LogDataSource
-import com.dom.data.source.LogLocalDataSource
-import com.dom.data.source.OpenWeatherRemoteSource
-import com.dom.data.source.OpenWeatherRemoteSourceImpl
+import com.dom.data.source.LocalDataSource
+import com.dom.data.source.LocalDataSourceImpl
+import com.dom.data.source.RemoteSource
+import com.dom.data.source.RemoteSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,9 +16,9 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideOpenWeatherRemoteSource(source: OpenWeatherRemoteSourceImpl): OpenWeatherRemoteSource = source
+    fun provideRemoteSource(source: RemoteSourceImpl): RemoteSource = source
 
     @Provides
     @Singleton
-    fun provideLogSource(source: LogLocalDataSource) : LogDataSource = source
+    fun provideLocalSource(source: LocalDataSourceImpl) : LocalDataSource = source
 }

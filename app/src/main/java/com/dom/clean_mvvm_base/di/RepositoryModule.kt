@@ -1,7 +1,7 @@
 package com.dom.clean_mvvm_base.di
 
-import com.dom.data.repository.WeatherRepositoryImpl
-import com.dom.domain.repository.WeatherRepository
+import com.dom.data.repository.RepositoryImpl
+import com.dom.domain.repository.Repository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,5 +14,5 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideRepository(repository: WeatherRepositoryImpl) : WeatherRepository = repository
+    fun provideRepository(repository: RepositoryImpl) : Repository = repository
 }

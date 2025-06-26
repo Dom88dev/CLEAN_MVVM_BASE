@@ -1,8 +1,28 @@
 package com.dom.domain.model
 
-sealed class Data {
+import java.io.Serializable
+
+sealed class Data : Serializable {
 
     object NoData: Data()
+
+    data class User(
+        val id: Long,
+        val name: String,
+        val userName: String,
+        val email: String,
+        val address: String,
+        val phone: String,
+        val webSite: String,
+        val company: Company,
+    ): Data(), Serializable
+
+    data class Company(
+        val name: String,
+        val catchPhrase: String,
+        val bs: String
+    ): Data(), Serializable
+
     data class CityLog(
         val name: String,
         val timestamp: Long

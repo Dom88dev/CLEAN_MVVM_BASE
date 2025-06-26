@@ -9,30 +9,26 @@ import com.dom.presentation.base.BaseActivity
 import com.dom.presentation.base.delegate.viewBinding
 import com.dom.presentation.databinding.ActivityLaunchBinding
 import com.dom.presentation.screen.main.MainActivity
+import com.dom.presentation.screen.splash.event.LaunchSideEffect
+import com.dom.presentation.screen.splash.event.LaunchState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LaunchActivity : BaseActivity<LaunchViewModel, ActivityLaunchBinding>() {
+class LaunchActivity : BaseActivity<LaunchState, LaunchSideEffect, LaunchViewModel, ActivityLaunchBinding>() {
     override val vm: LaunchViewModel by viewModels()
     override val vb: ActivityLaunchBinding by viewBinding(ActivityLaunchBinding::inflate)
 
     override fun initViews() {
-        with(vb) {
-
-        }
+        with(vb) {}
     }
 
-    override fun observeData(): Job = lifecycleScope.launch {
-        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            launch {
-                vm.isReadyMainScreen.collect {
-                    if (it) {
-                        startActivity(Intent(this@LaunchActivity, MainActivity::class.java))
-                        finish()
-                    }
-                }
+    override fun navigate(from: String) {
+        when(from) {
+            MainActivity::class.java.name -> {
+                startActivity(Intent(this@LaunchActivity, MainActivity::class.java))
+                finish()
             }
         }
     }

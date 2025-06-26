@@ -7,12 +7,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
+import com.dom.domain.ISideEffect
+import com.dom.domain.IState
+import com.dom.domain.IView
 import kotlinx.coroutines.Job
-import timber.log.Timber
-import com.dom.domain.model.Result
+import kotlinx.coroutines.launch
 
-abstract class BaseFragment<VM: BaseViewModel, VB: ViewBinding>: Fragment() {
+abstract class BaseFragment<S : IState, SE : ISideEffect, VM : BaseViewModel<S, *, SE>, VB : ViewBinding> :
+    Fragment(),
+    IView<S, SE> {
     abstract val vm: VM
     abstract val vb: VB
     private lateinit var fetchJob: Job
@@ -20,7 +27,20 @@ abstract class BaseFragment<VM: BaseViewModel, VB: ViewBinding>: Fragment() {
     //    lateinit var backPressedCallback: OnBackPressedCallback
 
     abstract fun initViews()
-    abstract fun observeData(): Job
+    private fun observeData(): Job = viewLifecycleOwner.lifecycleScope.launch {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            launch {
+                vm.state.collect {
+                    render(it)
+                }
+            }
+            launch {
+                vm.navigation.collect {
+                    navigate(it)
+                }
+            }
+        }
+    }
 
     open fun initScreen() {
         //region 뒤로가기 콜백 코드 상속 구현
@@ -64,7 +84,11 @@ abstract class BaseFragment<VM: BaseViewModel, VB: ViewBinding>: Fragment() {
 //        }
 //    }
 
-    fun showDialog(dialog: DialogFragment, tag: String = "dialog", onDismiss: (() -> Unit)? = null) {
+    fun showDialog(
+        dialog: DialogFragment,
+        tag: String = "dialog",
+        onDismiss: (() -> Unit)? = null
+    ) {
         requireActivity().supportFragmentManager.commit {
             requireActivity().supportFragmentManager.findFragmentByTag(tag)?.also {
                 remove(it)
@@ -79,43 +103,4 @@ abstract class BaseFragment<VM: BaseViewModel, VB: ViewBinding>: Fragment() {
         }
     }
 
-    fun <T : Any> handleData(
-        data: Result<T>
-    ) {
-        when (data) {
-            is Result.Failure.Error -> onApiError(data)
-            is Result.Failure.Exception -> onException(data)
-            Result.Loading -> onLoading()
-            Result.NotInit -> {}
-            is Result.Success -> {
-                onSuccess(data.data)
-            }
-        }
-    }
-
-    /**
-     * 데이터 처리 중일 때
-     */
-    open fun onLoading() {
-        // activity에서 감지하지 않는 데이터를 감지할 경우 override 해서 progress 표시 처리 구현
-    }
-
-    /**
-     * 데이터 처리 결과 성공일 때
-     */
-    open fun <T : Any> onSuccess(data: T) {}
-
-    /**
-     * 데이터 처리 시 http 에러 발생 시
-     */
-    open fun onApiError(e: Result.Failure.Error) {
-        Timber.e("onApiError = ${e.code}:${e.message}")
-    }
-
-    /**
-     * 데이터 처리 시 에러 발생 시
-     */
-    open fun onException(e: Result.Failure.Exception) {
-        Timber.e("onException = ${e.e.message.toString()}")
-    }
 }

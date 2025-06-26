@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dom.presentation">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application>
+        <activity android:name=".screen.detail.UserDetailActivity"
+            android:exported="false"/>
         <activity
             android:name=".screen.main.MainActivity"
             android:exported="false"

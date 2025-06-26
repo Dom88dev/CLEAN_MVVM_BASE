@@ -2,7 +2,7 @@ package com.dom.clean_mvvm_base.di
 
 import android.app.Application
 import android.content.Context
-import com.dom.data.remote.OpenWeatherService
+import com.dom.data.remote.ApiService
 import com.dom.presentation.util.Constants
 import com.dom.presentation.util.SharedPreferenceManager
 import com.google.gson.GsonBuilder
@@ -13,7 +13,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Authenticator
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -22,7 +21,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -33,7 +31,7 @@ internal object ApiModule {
     private const val CONNECT_TIMEOUT = 15L
     private const val WRITE_TIMEOUT = 15L
     private const val READ_TIMEOUT = 15L
-    private const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+    private const val BASE_URL = "https://jsonplaceholder.typicode.com/"
 
     @Provides
     @Singleton
@@ -129,12 +127,12 @@ internal object ApiModule {
 
     @Provides
     @Singleton
-    fun provideApiService(client: OkHttpClient): OpenWeatherService {
+    fun provideApiService(client: OkHttpClient): ApiService {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
-            .build().create(OpenWeatherService::class.java)
+            .build().create(ApiService::class.java)
     }
 
 }

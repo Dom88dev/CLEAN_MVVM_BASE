@@ -1,6 +1,7 @@
 package com.dom.presentation.base
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -9,23 +10,36 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
+import com.dom.domain.ISideEffect
+import com.dom.domain.IState
+import com.dom.domain.IView
+import com.dom.presentation.base.dialog.DialogListener
 import com.dom.presentation.base.dialog.ProgressDialog
+import com.dom.presentation.util.Extensions.createNotificationChannels
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import com.dom.domain.model.Result
-import com.dom.presentation.base.dialog.DialogListener
-import com.dom.presentation.databinding.DialogProgressBinding
-import com.dom.presentation.util.Extensions.createNotificationChannels
-import com.dom.presentation.util.SharedPreferenceManager
 
-abstract class BaseActivity<VM: BaseViewModel, VB: ViewBinding> : AppCompatActivity(), DialogListener {
+abstract class BaseActivity<S : IState, SE : ISideEffect, VM : BaseViewModel<S, *, SE>, VB : ViewBinding> :
+    AppCompatActivity(), IView<S, SE>, DialogListener {
 
     abstract val vm: VM
     abstract val vb: VB
     private lateinit var fetchJob: Job
     abstract fun initViews()
-    abstract fun observeData(): Job
+    private fun observeData(): Job = lifecycleScope.launch {
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            launch {
+                vm.state.collect {
+                    render(it)
+                }
+            }
+            launch {
+                vm.navigation.collect {
+                    navigate(it)
+                }
+            }
+        }
+    }
 
     //shared preferences 를 사용할 경우 주석 해제
 //    lateinit var prefs: SharedPreferenceManager
@@ -62,16 +76,6 @@ abstract class BaseActivity<VM: BaseViewModel, VB: ViewBinding> : AppCompatActiv
             onBackPressedDispatcher.addCallback(this, it)
         }
         //endregion
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    vm.spinner.collect {
-                        if (it) showProgress()
-                        else hideProgress()
-                    }
-                }
-            }
-        }
         initViews()
         fetchJob = vm.fetch()
         observeData()
@@ -84,7 +88,9 @@ abstract class BaseActivity<VM: BaseViewModel, VB: ViewBinding> : AppCompatActiv
         super.onDestroy()
     }
 
-    open fun onBackPressedCallback() {  finish() }
+    open fun onBackPressedCallback() {
+        finish()
+    }
 
     fun showProgress() {
         // 프로그레싱 표시
@@ -100,7 +106,7 @@ abstract class BaseActivity<VM: BaseViewModel, VB: ViewBinding> : AppCompatActiv
      * 프로그레스 다이얼로그를 다르게 하고 싶을 때 override
      */
     open fun initProgress(): ProgressDialog {
-        return ProgressDialog(this, DialogProgressBinding::inflate)
+        return ProgressDialog()
     }
 
     fun hideProgress() {
@@ -123,50 +129,15 @@ abstract class BaseActivity<VM: BaseViewModel, VB: ViewBinding> : AppCompatActiv
     }
 
 
-
-    fun <T : Any> handleData(
-        data: Result<T>
-    ) {
-        when (data) {
-            is Result.Failure.Error -> onApiError(data)
-            is Result.Failure.Exception -> onException(data)
-            Result.Loading -> onLoading()
-            Result.NotInit -> {}
-            is Result.Success -> {
-                onSuccess(data.data)
-            }
-        }
+    override fun render(state: S) {
+        if (state.isLoading) showProgress() else hideProgress()
+        if (state.errorMessage.isNullOrBlank().not()) Toast.makeText(
+            this,
+            state.errorMessage,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
-    /**
-     * 데이터 처리 중일 때
-     */
-    private fun onLoading() {
-        showProgress()
-    }
-
-    /**
-     * 데이터 처리 결과 성공일 때
-     */
-    open fun <T : Any> onSuccess(data: T) {
-        hideProgress()
-    }
-
-    /**
-     * 데이터 처리 시 http 에러 발생 시
-     */
-    open fun onApiError(e: Result.Failure.Error) {
-        hideProgress()
-        Timber.e("onApiError = ${e.code}:${e.message}")
-    }
-
-    /**
-     * 데이터 처리 시 에러 발생 시
-     */
-    open fun onException(e: Result.Failure.Exception) {
-        hideProgress()
-        Timber.e("onException = ${e.e.message.toString()}")
-    }
 
     /**
      * 필요 시 권한 허용 요청 결과 처리를 오버로드해서 구현
