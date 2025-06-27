@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.dom.clean_mvvm_base">
+    package="com.dom.clean_mvi_base">
 
     <application
         android:allowBackup="true"
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App"
         tools:targetApi="31"
-        android:name="com.dom.clean_mvvm_base.MyApplication"
+        android:name="com.dom.clean_mvi_base.MyApplication"
         >
 
     </application>

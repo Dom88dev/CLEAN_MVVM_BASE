@@ -1,4 +1,4 @@
-package com.dom.clean_mvvm_base
+package com.dom.clean_mvi_base
 
 import android.app.Application
 import android.content.Context

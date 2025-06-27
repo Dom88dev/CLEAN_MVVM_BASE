@@ -1,7 +1,7 @@
-package com.dom.clean_mvvm_base.di
+package com.dom.clean_mvi_base.di
 
-import com.dom.data.repository.RepositoryImpl
 import com.dom.domain.repository.Repository
+import com.dom.domain.usecase.UseCaseUsers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,9 +10,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideRepository(repository: RepositoryImpl) : Repository = repository
+    fun provideUseCaseUsers(repository: Repository): UseCaseUsers = UseCaseUsers(repository)
 }

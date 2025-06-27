@@ -1,4 +1,4 @@
-package com.dom.clean_mvvm_base.di
+package com.dom.clean_mvi_base.di
 
 import com.dom.data.source.LocalDataSource
 import com.dom.data.source.LocalDataSourceImpl
